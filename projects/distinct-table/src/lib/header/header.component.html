@@ -1,0 +1,55 @@
+<div *ngIf="tableConfig.displayHeader" [class.border-left]="tableConfig.bordred" [class.border-right]="tableConfig.bordred"
+  [class.border-top]="tableConfig.bordred" class="border-bottom d-none table-header d-md-flex align-items-center">
+  <div *ngIf="tableConfig.selectType !== 'none'" [style.width.px]="35" class="d-flex ml-3 pb-3 pt-3 align-items-center justify-content-center">
+  </div>
+  <div class="row flex-1 d-flex align-items-center m-0">
+    <div *ngFor="let header of config" [class]="header.width + ' d-flex header-col'">
+      <span (click)="sort(header.sort.attributes[0])" *ngIf="header.sort && header.sort.attributes.length === 1" class="text-secondary w-100 pb-2 pt-2 d-flex dropdown-toggle">
+        {{ header.label }}
+        <i *ngIf="header.sort.attributes[0].direction === 'asc'" class="ion-md-arrow-up align-self-end ml-2"></i>
+        <i *ngIf="header.sort.attributes[0].direction === 'desc'" class="ion-md-arrow-down align-self-end ml-2"></i>
+      </span>
+      <div autoClose="false" *ngIf="header.sort && header.sort.attributes && header.sort.attributes.length > 1" ngbDropdown class="w-100">
+        <span ngbDropdownToggle class="text-secondary dropdown-toggle d-flex align-items-center w-100 pb-2 pt-2">
+          {{ header.label }}
+          <i class="dropdown-icon ml-2 nb-chevron-down"></i>
+        </span>
+        <ul ngbDropdownMenu class="dropdown-menu header-dropdown-menu dropdown-menu-right">
+          <li (click)="sort(attribut)" *ngFor="let attribut of header.sort.attributes" class="dropdown-item d-flex">
+            {{ attribut.name }}
+            <i *ngIf="attribut.direction === 'asc'" class="ion-md-arrow-up ml-2"></i>
+            <i *ngIf="attribut.direction === 'desc'" class="ion-md-arrow-down ml-2"></i>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="tableConfig.displayHeader" [class.border-left]="tableConfig.bordred" [class.border-right]="tableConfig.bordred"
+  [class.border-top]="tableConfig.bordred" class="border-bottom d-none table-header-mobile d-flex d-md-none d-lg-none d-xl-none align-items-center pb-1 pt-1">
+  <div *ngIf="tableConfig.selectType !== 'none'" [style.width.px]="25" class="d-flex ml-1 pb-3 pt-3 align-items-center justify-content-center">
+  </div>
+  <div class="row flex-1 d-flex align-items-center m-0">
+    <div *ngFor="let header of mobileConfig" [class]="header.width + ' p-0 mobile-header-col'">
+      <span (click)="sort(header.sort.attributes[0])" *ngIf="header.sort && header.sort.attributes.length === 1" class="text-secondary dropdown-toggle">
+        {{ header.label }}
+        <i *ngIf="header.sort.attributes[0].direction === 'asc'" class="ion-md-arrow-up"></i>
+        <i *ngIf="header.sort.attributes[0].direction === 'desc'" class="ion-md-arrow-down"></i>
+      </span>
+      <div *ngIf="header.sort && header.sort.attributes && header.sort.attributes.length > 1" ngbDropdown class="w-100">
+        <span ngbDropdownToggle class="text-secondary dropdown-toggle d-flex align-items-center header-col w-100">
+          {{ header.label }}
+          <i class="dropdown-icon nb-chevron-down"></i>
+        </span>
+        <ul ngbDropdownMenu class="dropdown-menu mobile-header-dropdown-menu dropdown-menu-right">
+          <li (click)="sort(attribut)" *ngFor="let attribut of header.sort.attributes" class="dropdown-item d-flex">
+            {{ attribut.name }}
+            <i *ngIf="attribut.direction === 'asc'" class="ion-md-arrow-up ml-1"></i>
+            <i *ngIf="attribut.direction === 'desc'" class="ion-md-arrow-down ml-1"></i>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

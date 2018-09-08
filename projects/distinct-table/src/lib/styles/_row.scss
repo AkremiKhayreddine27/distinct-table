@@ -1,0 +1,277 @@
+.table-row {
+    position: relative;
+    cursor: pointer;
+    background-color: $row-bg-color;
+}
+
+.table-row-mobile {
+    position: relative;
+    cursor: pointer;
+}
+
+.table-row:hover {
+    background-color: $row-hover-color;
+}
+
+.table-padding {
+    padding-left: 35px;
+}
+
+.mobile-table-padding {
+    padding-left: 15px;
+}
+
+.table-link {
+    color: $row-link-color !important;
+}
+
+.contact-badge {
+    background-color: #dee9ec !important;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 14px;
+}
+
+/**
+* Letter
+*/
+
+.table-letter {
+    height: $letter-height;
+    width: $letter-width;
+    border-radius: 50%;
+    background-color: #2196F3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.mobile-table-letter {
+    height: $mobile-letter-height;
+    width: $mobile-letter-width;
+    border-radius: 50%;
+    background-color: #2196F3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+/**
+* Utilities
+*/
+
+.flex-1 {
+    flex: 1;
+}
+
+.rounded {
+    border-radius: 50% !important;
+}
+
+/**
+* Collpase
+*/
+
+.collapse-text {
+    text-decoration: underline;
+    font-size: $collapse-font-size;
+    padding-left: $collapse-padding;
+    color: $collapse-color;
+}
+
+.collapse-icon {
+    font-size: $collapse-icon-font-size;
+}
+
+/**
+* Dropdown
+*/
+
+.dropdown:not(.btn-group) .dropdown-toggle::after,
+.dropup:not(.btn-group) .dropdown-toggle::after {
+    display: none;
+}
+
+.action-dropdown {
+    padding: 0;
+    border-radius: 0;
+}
+
+.action-dropdown .dropdown-item {
+    cursor: pointer;
+    padding: 7px 10px;
+    font-size: $row-text-size !important;
+}
+
+.dropdown-menu-right {
+    right: 0 !important;
+    left: auto !important;
+}
+
+/**
+* Text
+*/
+
+.table-text {
+    font-size: $row-text-size;
+    vertical-align: middle;
+    padding: $row-text-padding;
+    overflow: hidden;
+    color: $row-text-color;
+}
+
+.mobile-table-text {
+    font-size: $mobile-row-text-size;
+    vertical-align: middle;
+    padding: $row-text-padding;
+    overflow: hidden;
+    color: $row-text-color;
+}
+
+.min-width-0 {
+    min-width: 20px;
+}
+
+.min-width-0:last-child .table-text,
+.min-width-0:last-child .mobile-table-text {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+/**
+* Icons
+*/
+
+.icon {
+    color: $row-icon-color;
+}
+
+/**
+* Actions
+*/
+
+.dtc-collapse {
+    position: relative;
+}
+
+.btn-close-collapse {
+    position: absolute;
+    bottom: 0;
+    left: calc(50% - 12.5px);
+    font-weight: $row-action-icon-weight;
+    box-shadow: $row-action-icon-box-shadow;
+    background-color: $row-action-icon-bg;
+    width: $row-action-icon-width;
+    height: $row-action-icon-height;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.action-icon {
+    color: $row-actions-icon-color;
+    width: $row-action-icon-width;
+    height: $row-action-icon-height;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: $row-action-icon-weight;
+}
+
+.action-icon:hover {
+    color: $row-action-icon-hover-color;
+    background-color: $row-action-icon-hover-bg;
+}
+
+.mobile-row-actions {
+    position: absolute;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 5px;
+    .action-icon {
+        color: $row-actions-icon-color;
+        width: $row-action-icon-width;
+        height: $row-action-icon-height;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: $row-action-icon-weight;
+        box-shadow: $row-action-icon-box-shadow;
+        background-color: $row-action-icon-bg;
+    }
+    .action-icon:hover {
+        color: $row-action-icon-hover-color;
+        background-color: $row-action-icon-hover-bg;
+    }
+}
+
+/* Checkbox */
+
+.checkbox-container {
+    display: block;
+    position: relative;
+    padding-bottom: 10px;
+    width: 20px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: white;
+    border: 2px solid #dddddd;
+}
+
+.checkbox-container:hover input~.checkmark {
+    background-color: white;
+}
+
+.checkbox-container input:checked~.checkmark {
+    background-color: $row-checkbox-color;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-container input:checked~.checkmark:after {
+    display: block;
+}
+
+.checkbox-container .checkmark:after {
+    left: 5px;
+    top: 1px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}

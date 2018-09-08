@@ -1,0 +1,82 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* You can add global styles to this file, and also import other style files */
+
+// @nebular theming framework
+@import '~@nebular/theme/styles/theming';
+// @nebular out of the box themes
+@import '~@nebular/theme/styles/themes';
+// which themes you what to enable (empty to enable all)
+$nb-enabled-themes: (default);
+$nb-themes: nb-register-theme(( // app wise variables for each theme
+header-height: 60px, header-shadow: 0 1px 0 0 #dfe3eb, sidebar-shadow: 0 0 0 1px #dfe3eb, color-fg: black, layout-padding: 1rem 0 0, layout-bg: white, ), default, default);
+// framework component themes (styles tied to theme variables)
+@import '~@nebular/theme/styles/globals';
+
+@import '../projects/distinct-table/src/lib/styles/styles';
+
+// install the framework and custom global styles
+@include nb-install() {
+    // framework global styles
+    @include nb-theme-global();
+}
+
+;
+/**
+* Fix Dropdown
+*/
+
+.dropdown-menu {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 1px solid #dddddd !important;
+    border-radius: 0 !important;
+    min-width: 150px !important;
+}
+
+.dropdown-item {
+    color: black !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 7px 10px !important;
+    text-transform: none !important;
+    cursor: pointer !important;
+}
+
+/* Scroll bar width */
+
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+/* Track */
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/**
+* Modal
+*/
+
+.modal-backdrop.show {
+    opacity: 0.12 !important;
+}
+
+.modal-content {
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24);
+}

@@ -1,0 +1,60 @@
+<div class="modal-header d-flex justify-content-between">
+  <div class="d-flex">
+    <img *ngIf="contact.avatar" width="60" height="60" class="contact-avatar" [src]="contact.avatar" />
+    <div *ngIf="!contact.avatar" class="contact-letter">
+      {{ contact.firstname[0] }}
+    </div>
+    <div class="d-flex flex-column">
+      <span class="contact-name">{{ contact.firstname }} {{ contact.lastname }}</span>
+      <div>
+        <span class="badge contact-badge">Locataire</span>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex modal-header-actions align-items-center">
+    <i (click)="edit = !edit" class="ion ion-md-create"></i>
+    <div ngbDropdown class="d-inline-block">
+      <i ngbDropdownToggle class="ion ion-md-more"></i>
+      <ul ngbDropdownMenu class="dropdown-menu dropdown-menu-right">
+        <li class="dropdown-item">
+          <i class="fa fa-trash"></i> Delete
+        </li>
+      </ul>
+    </div>
+    <i (click)="activeModal.dismiss()" class="ion ion-md-close"></i>
+  </div>
+</div>
+<div class="modal-body">
+  <ul *ngIf="!edit" class="list-group w-100 border-0 m-0 p-0">
+    <li class="list-group-item border-0">
+      <i class="fa fa-envelope mr-2"></i>
+      {{ contact.email }}
+    </li>
+    <li class="list-group-item border-0">
+      <i class="fa fa-phone mr-2"></i>
+      {{ contact.phone }}
+    </li>
+    <li class="list-group-item d-flex border-0">
+      <i class="fa fa-map-marker mr-2"></i>
+      <div class="d-flex flex-column">
+        {{ contact.location.address }}<br/> {{ contact.location.postCode }} {{ contact.location.city }}<br/> {{ contact.location.country
+        }}
+      </div>
+    </li>
+  </ul>
+  <form [formGroup]="form" *ngIf="edit">
+    <div class="form-group d-flex align-items-center row">
+      <label class="col-md-3" for="exampleInputEmail1">Email</label>
+      <input formControlName="email" type="email" class="form-control form-control-sm col-md-9" aria-describedby="emailHelp" placeholder="Email">
+    </div>
+    <div class="form-group d-flex align-items-center row">
+      <label class="col-md-3" for="exampleInputEmail1">Phone</label>
+      <input formControlName="phone" type="tel" class="form-control form-control-sm col-md-9" aria-describedby="emailHelp" placeholder="Phone">
+    </div>
+    <div class="form-group d-flex align-items-center row">
+      <label class="col-md-3" for="exampleInputEmail1">Birthday</label>
+      <input formControlName="birthday" type="date" class="form-control form-control-sm col-md-9" aria-describedby="emailHelp"
+        placeholder="Birthday">
+    </div>
+  </form>
+</div>

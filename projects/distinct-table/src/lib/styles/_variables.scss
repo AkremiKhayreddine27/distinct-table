@@ -1,0 +1,77 @@
+/**
+* Row
+*/
+
+$row-bg-color: transparent !default;
+$row-hover-color: rgba(0, 0, 0, 0.05) !default;
+/**
+* Text
+*/
+
+$row-text-size: 13px !default;
+$row-text-color: black !default;
+$row-text-padding: 2px 2px 2px 0 !default;
+$mobile-row-text-size: 12px !default;
+/**
+* Icons
+*/
+
+$row-icon-color: rgba(0, 0, 0, 0.6) !default;
+/**
+* Actions
+*/
+
+$row-actions-icon-color: rgba(0, 0, 0, 0.4) !default;
+$row-action-icon-hover-color: black !default;
+$row-action-icon-hover-bg: white !default;
+$row-action-icon-height: 25px !default;
+$row-action-icon-width: 25px !default;
+$row-action-icon-weight: 500;
+$row-action-icon-box-shadow: 0 2px 12px 0 #909090 !default;
+$row-action-icon-bg: white !default;
+/**
+* Link
+*/
+
+$row-link-color: black !default;
+/**
+* Letter
+*/
+
+$letter-height: 35px !default;
+$letter-width: 35px !default;
+
+$mobile-letter-height: 25px !default;
+$mobile-letter-width: 25px !default;
+/**
+* Collapse
+*/
+
+$collapse-font-size: 13px !default;
+$collapse-color: black !default;
+$collapse-padding: 0 0 0 2px !default;
+$collapse-icon-font-size: 0.6rem !default;
+
+/**
+* Checkbox
+*/
+
+$row-checkbox-color: #2196F3 !default;
+
+
+/**
+* Header
+*
+*/
+
+$header-dropdown-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2),
+0 8px 10px 1px rgba(0, 0, 0, .14),
+0 3px 14px 2px rgba(0, 0, 0, .12);
+$header-dropdown-border: none;
+$header-dropdown-icon-font-size: 1.3rem;
+$header-font-size: 14px;
+$header-action-bar-padding: 0 0 1rem 0;
+$header-action-icon-color: rgba(0, 0, 0, 0.4);
+$header-action-icon-width: 25px;
+$header-action-icon-height: 25px;
+$header-action-icon-font-size: 1.2rem;

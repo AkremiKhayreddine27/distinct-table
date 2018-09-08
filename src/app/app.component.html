@@ -1,20 +1,61 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-
+<nb-layout>
+    <nb-layout-header fixed>
+        <div class="row w-100 contacts-header d-flex align-items-center">
+            <div class="col-6 col-md-2 pl-0 d-flex align-items-center">
+                <i (click)="toggle()" class="nb-menu sidebar-toggle mr-3"></i>
+                <img class="logo" src="assets/contacts_64dp.png" />
+                <span class="page-title">
+                    Contacts
+                </span>
+            </div>
+            <div class="col-6 col-md-7 d-none d-md-flex">
+                <div class="input-group header-search ml-4 input-group-lg">
+                    <input type="text" class="form-control" placeholder="Search" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="inputGroup-sizing-lg">
+                            <i class="ion ion-md-search"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nb-layout-header>
+    <nb-sidebar responsive>
+        <ul class="list-group sidebar-list-group border-0 p-0">
+            <li class="list-group-item border-0">
+                <i class="fa fa-upload mr-2"></i>
+                Import
+            </li>
+            <li class="list-group-item border-0">
+                <i class="fa fa-download mr-2"></i>
+                Export
+            </li>
+            <li class="list-group-item border-0">
+                <i class="fa fa-cogs mr-2"></i>
+                Settings
+            </li>
+            <li class="list-group-item d-flex justify-content-between with-children border-bottom-0 border-left-0 border-right-0 border-top">
+                <span>
+                    <i class="fa fa-users mr-2"></i>
+                    Groups
+                </span>
+                <i class="ion ion-md-add"></i>
+            </li>
+            <li class="list-group-item border-0">
+                Propriétaire
+            </li>
+            <li class="list-group-item border-0">
+                Locataire
+            </li>
+            <li class="list-group-item border-0">
+                Prestataire de service
+            </li>
+            <li class="list-group-item with-children border-bottom-0 border-left-0 border-right-0 border-top">
+            </li>
+        </ul>
+    </nb-sidebar>
+    <nb-layout-column>
+        <dtc-table (deleteSelectedItems)="handleDeleteSelectedItems($event)" (rowActionClicked)="handleRowActionClicked($event)"
+            (rowClicked)="handleRowClicked($event)" (selectRowChanged)="handleSelectRowChanged($event)" [config]="config" [data]="users"></dtc-table>
+    </nb-layout-column>
+</nb-layout>

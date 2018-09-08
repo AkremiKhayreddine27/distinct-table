@@ -23,7 +23,12 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "node_modules/bootstrap/dist/css/bootstrap.css",
+              "node_modules/font-awesome/scss/font-awesome.scss",
+              "node_modules/ionicons/dist/scss/ionicons.scss",
+              "node_modules/nebular-icons/scss/nebular-icons.scss",
+              "node_modules/@nebular/theme/styles/prebuilt/default.css",
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -121,7 +126,52 @@
           }
         }
       }
+    },
+    "distinct-table": {
+      "root": "projects/distinct-table",
+      "sourceRoot": "projects/distinct-table/src",
+      "projectType": "library",
+      "prefix": "dtc",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/distinct-table/tsconfig.lib.json",
+            "project": "projects/distinct-table/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/distinct-table/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/distinct-table/src/test.ts",
+            "tsConfig": "projects/distinct-table/tsconfig.spec.json",
+            "karmaConfig": "projects/distinct-table/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/distinct-table/tsconfig.lib.json",
+              "projects/distinct-table/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
-  "defaultProject": "locatus-contacts"
+  "defaultProject": "locatus-contacts",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }

@@ -1,0 +1,230 @@
+<div (click)="handleRowClicked($event)" (mouseenter)="toggleShowActions(true)" (mouseleave)="toggleShowActions(false)" [class.border-bottom]="tableConfig.bordred"
+  [class.border-left]="tableConfig.bordred" [class.border-right]="tableConfig.bordred" class="table-row d-none d-md-flex">
+  <div *ngIf="tableConfig.selectType !== 'none'" [style.width.px]="35" [class.align-items-start]="tableConfig.alignDesktop === 'start'"
+    [class.align-items-center]="tableConfig.alignDesktop === 'center'" [class.align-items-end]="tableConfig.alignDesktop === 'end'"
+    class="d-flex ml-3 pb-3 pt-3 justify-content-center">
+    <div *ngIf="tableConfig.selectType === 'checkbox' || showActions || data.selected" class=" d-flex align-self-center">
+      <label (click)="$event.stopPropagation();" class="checkbox-container">
+        <input (change)="selectRow($event.target.checked)" [(ngModel)]="data.selected" type="checkbox">
+        <span class="checkmark"></span>
+      </label>
+    </div>
+    <img *ngIf="!data.selected && tableConfig.selectType === 'image' && getDataFromObject(tableConfig.imagePath) && !showActions"
+      class="table-image align-self-center" [width]="35" [height]="35" [src]="getDataFromObject(tableConfig.imagePath)" />
+    <div *ngIf="(!data.selected && !showActions && tableConfig.selectType === 'letters' && getDataFromObject(tableConfig.lettersPath)) ||(!data.selected && !showActions && tableConfig.selectType === 'image' && getDataFromObject(tableConfig.lettersPath) && !getDataFromObject(tableConfig.imagePath))"
+      class="table-letter align-self-center">
+      {{ getDataFromObject(tableConfig.lettersPath)[0] | uppercase }}
+    </div>
+  </div>
+  <div class="row flex-1 m-0 pb-3 pt-3" [class.align-items-start]="tableConfig.alignDesktop === 'start'" [class.align-items-center]="tableConfig.alignDesktop === 'center'"
+    [class.align-items-end]="tableConfig.alignDesktop === 'end'">
+    <div *ngFor="let col of config" [class]="col.width">
+      <div *ngFor="let line of col.data" [class.d-flex]="line.align" class="align-items-center">
+        <div *ngFor="let item of line.line" [ngSwitch]="item.type" class="min-width-0">
+          <div class="d-flex" *ngSwitchCase="'array'">
+            <div *ngFor="let arrayItem of getDataFromObject(item.path)">
+              <span class="badge ml-1 contact-badge">
+                {{ item.getData ? item.getData(arrayItem) : arrayItem }}
+              </span>
+            </div>
+          </div>
+          <div class="table-text" *ngSwitchCase="'text'">
+            {{ item.path ? getDataFromObject(item.path) : item.label }}
+          </div>
+          <div class="table-text" *ngSwitchCase="'email'">
+            <a class="table-link" [href]="'mailto:' + getDataFromObject(item.path)" target="_top">
+              {{ getDataFromObject(item.path) }}
+            </a>
+          </div>
+          <div class="table-text" *ngSwitchCase="'phone'">
+            <a class="table-link" [href]="'tel:' + getDataFromObject(item.path)">{{ getDataFromObject(item.path) }}</a>
+          </div>
+          <div class="table-text" *ngSwitchCase="'date'">
+            {{ getDataFromObject(item.path) | date: item.dateFormat ? item.dateFormat : 'dd MMM yyyy' }}
+          </div>
+          <div [style.min-height.px]="item.imageHeight ? item.imageHeight : 35" [style.min-width.px]="item.imageWidth ? item.imageWidth + 15 : 50"
+            class="d-flex align-items-center justify-content-center" *ngSwitchCase="'image'">
+            <img [class.rounded]="item.imageStyle === 'rounded'" class="table-image" [width]="item.imageWidth ? item.imageWidth : 35"
+              [height]="item.imageHeight ? item.imageHeight : 35" [src]="item.path ? getDataFromObject(item.path) : item.image"
+            />
+          </div>
+          <div *ngSwitchCase="'icon'">
+            <i [class]="item.path ? getDataFromObject(item.path) : item.icon + ' icon m-1'"></i>
+          </div>
+          <div *ngSwitchCase="'badge'">
+            <span [class]="item.badgePath ? 'badge ' + getDataFromObject(item.badgePath) : 'badge badge-' + item.badgeType">
+              {{ getDataFromObject(item.path) }}
+            </span>
+          </div>
+          <div class="collapse-text" (click)="$event.stopPropagation();handleCollapse(item)" *ngSwitchCase="'collapse'">
+            {{ item.path ? item.path : item.label }}
+            <i *ngIf="isCollapsed" class="collapse-icon fa fa-chevron-down"></i>
+            <i *ngIf="!isCollapsed" class="collapse-icon fa fa-chevron-up"></i>
+          </div>
+          <div *ngSwitchCase="'action'">
+            <div *ngIf="showActions" [ngSwitch]="item.action.type">
+              <div *ngSwitchCase="'icon'">
+                <i (click)="$event.stopPropagation();actionClicked.emit({action: item.action.calback, row: data})" [class]="item.action.path ? getDataFromObject(item.action.path) : item.action.icon + ' m-1 action-icon'"></i>
+              </div>
+              <div (click)="$event.stopPropagation();" *ngSwitchCase="'dropdown'">
+                <div ngbDropdown class="d-inline-block">
+                  <div ngbDropdownToggle [ngSwitch]="item.action.dropdownConfig.toggle.type">
+                    <!-- Add button type -->
+                    <a *ngSwitchCase="'icon'">
+                      <i [class]="item.action.dropdownConfig.toggle.path ? getDataFromObject(item.action.dropdownConfig.toggle.path) : item.action.dropdownConfig.toggle.icon + ' m-1 action-icon'"></i>
+                    </a>
+                  </div>
+                  <ul ngbDropdownMenu class="dropdown-menu action-dropdown dropdown-menu-right">
+                    <li *ngFor="let i of item.action.dropdownConfig.items" (click)="$event.stopPropagation();actionClicked.emit({action: i.calback, row: data})"
+                      class="dropdown-item d-flex">
+                      <span *ngFor="let j of i.data" [ngSwitch]="j.type">
+                        <div *ngSwitchCase="'text'">
+                          {{ j.path ? getDataFromObject(j.path) : j.label }}
+                        </div>
+                        <div *ngSwitchCase="'icon'">
+                          <i [class]="j.path ? getDataFromObject(j.path) : j.icon + ' icon m-1'"></i>
+                        </div>
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showActions" class="mobile-row-actions">
+    <div *ngFor="let action of tableConfig.desktopActions">
+      <div [ngSwitch]="action.type">
+        <div *ngSwitchCase="'icon'">
+          <i (click)="$event.stopPropagation();actionClicked.emit({action: action.calback, row: data})" [class]="action.path ? getDataFromObject(action.path) : action.icon + ' m-1 action-icon'"></i>
+        </div>
+        <div (click)="$event.stopPropagation();" *ngSwitchCase="'dropdown'">
+          <div ngbDropdown class="d-inline-block">
+            <div ngbDropdownToggle [ngSwitch]="action.dropdownConfig.toggle.type">
+              <!-- Add button type -->
+              <a *ngSwitchCase="'icon'">
+                <i [class]="action.dropdownConfig.toggle.path ? getDataFromObject(action.dropdownConfig.toggle.path) : action.dropdownConfig.toggle.icon + ' m-1 action-icon'"></i>
+              </a>
+            </div>
+            <ul ngbDropdownMenu class="dropdown-menu action-dropdown dropdown-menu-right">
+              <li *ngFor="let i of action.dropdownConfig.items" (click)="$event.stopPropagation();actionClicked.emit({action: i.calback, row: data})"
+                class="dropdown-item d-flex">
+                <span *ngFor="let j of i.data" [ngSwitch]="j.type">
+                  <div *ngSwitchCase="'text'">
+                    {{ j.path ? getDataFromObject(j.path) : j.label }}
+                  </div>
+                  <div *ngSwitchCase="'icon'">
+                    <i [class]="j.path ? getDataFromObject(j.path) : j.icon + ' icon m-1'"></i>
+                  </div>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div (click)="rowClicked.emit(data);" (mouseenter)="toggleShowActions(true)" (mouseleave)="toggleShowActions(false)" [class.border-bottom]="tableConfig.bordred"
+  [class.border-left]="tableConfig.bordred" [class.border-right]="tableConfig.bordred" class="table-row d-flex d-md-none d-lg-none d-xl-none">
+  <div *ngIf="tableConfig.selectType !== 'none'" [style.width.px]="25" class="d-flex ml-1 mr-1 pb-3 pt-3 align-items-center justify-content-center">
+    <div *ngIf="tableConfig.selectType === 'checkbox' || showActions || data.selected" class=" d-flex align-self-center">
+      <label (click)="$event.stopPropagation();" class="checkbox-container">
+        <input (change)="selectRow($event.target.checked)" [(ngModel)]="data.selected" type="checkbox">
+        <span class="checkmark"></span>
+      </label>
+    </div>
+    <img *ngIf="!data.selected && tableConfig.selectType === 'image' && getDataFromObject(tableConfig.imagePath) && !showActions"
+      class="table-image" [width]="25" [height]="25" [src]="getDataFromObject(tableConfig.imagePath)" />
+    <div *ngIf="(!data.selected && !showActions && tableConfig.selectType === 'letters' && getDataFromObject(tableConfig.lettersPath)) ||(!data.selected && !showActions && tableConfig.selectType === 'image' &&  getDataFromObject(tableConfig.lettersPath) && !getDataFromObject(tableConfig.imagePath))"
+      class="mobile-table-letter">
+      {{ getDataFromObject(tableConfig.lettersPath)[0] | uppercase }}
+    </div>
+  </div>
+  <div [class.align-items-start]="tableConfig.alignMobile === 'start'" [class.align-items-center]="tableConfig.alignMobile === 'center'"
+    [class.align-items-end]="tableConfig.alignMobile === 'end'" class="row flex-1 m-0 pb-3 pt-3">
+    <div *ngFor="let col of mobileConfig" [class]="col.width + ' p-0'">
+      <div *ngFor="let line of col.data" [class.d-flex]="line.align" class="align-items-center">
+        <div *ngFor="let item of line.line" [ngSwitch]="item.type" class="min-width-0">
+          <div class="mobile-table-text" *ngSwitchCase="'text'">
+            {{ item.path ? getDataFromObject(item.path) : item.label }}
+          </div>
+          <div class="mobile-table-text" *ngSwitchCase="'email'">
+            <a class="table-link" [href]="'mailto:' + getDataFromObject(item.path)" target="_top">
+              {{ getDataFromObject(item.path) }}
+            </a>
+          </div>
+          <div class="mobile-table-text" *ngSwitchCase="'phone'">
+            <a class="table-link" [href]="'tel:' + getDataFromObject(item.path)">{{ getDataFromObject(item.path) }}</a>
+          </div>
+          <div class="mobile-table-text" *ngSwitchCase="'date'">
+            {{ getDataFromObject(item.path) | date: item.dateFormat ? item.dateFormat : 'dd MMM yyyy' }}
+          </div>
+          <div [style.min-height.px]="item.imageHeight ? item.imageHeight + 5 : 40" [style.min-width.px]="item.imageWidth ? item.imageWidth + 15 : 50"
+            class="d-flex align-items-center justify-content-center" *ngSwitchCase="'image'">
+            <img [class.rounded]="item.imageStyle === 'rounded'" class="table-image" [width]="item.imageWidth ? item.imageWidth : 35"
+              [height]="item.imageHeight ? item.imageHeight : 35" [src]="item.path ? getDataFromObject(item.path) : item.image"
+            />
+          </div>
+          <div *ngSwitchCase="'icon'">
+            <i [class]="item.path ? getDataFromObject(item.path) : item.icon + ' icon m-1'"></i>
+          </div>
+          <div *ngSwitchCase="'badge'">
+            <span [class]="item.badgePath ? 'badge ' + getDataFromObject(item.badgePath) : 'badge badge-' + item.badgeType">
+              {{ getDataFromObject(item.path) }}
+            </span>
+          </div>
+          <div class="collapse-text" (click)="$event.stopPropagation();handleCollapse(item)" *ngSwitchCase="'collapse'">
+            {{ item.path ? item.path : item.label }}
+            <i *ngIf="isCollapsed" class="collapse-icon fa fa-chevron-down"></i>
+            <i *ngIf="!isCollapsed" class="collapse-icon fa fa-chevron-up"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showActions" class="mobile-row-actions">
+    <div *ngFor="let action of tableConfig.mobileActions">
+      <div [ngSwitch]="action.type">
+        <div *ngSwitchCase="'icon'">
+          <i (click)="$event.stopPropagation();actionClicked.emit({action: action.calback, row: data})" [class]="action.path ? getDataFromObject(action.path) : action.icon + ' m-1 action-icon'"></i>
+        </div>
+        <div (click)="$event.stopPropagation();" *ngSwitchCase="'dropdown'">
+          <div ngbDropdown class="d-inline-block">
+            <div ngbDropdownToggle [ngSwitch]="action.dropdownConfig.toggle.type">
+              <!-- Add button type -->
+              <a *ngSwitchCase="'icon'">
+                <i [class]="action.dropdownConfig.toggle.path ? getDataFromObject(action.dropdownConfig.toggle.path) : action.dropdownConfig.toggle.icon + ' m-1 action-icon'"></i>
+              </a>
+            </div>
+            <ul ngbDropdownMenu class="dropdown-menu action-dropdown dropdown-menu-right">
+              <li *ngFor="let i of action.dropdownConfig.items" (click)="$event.stopPropagation();actionClicked.emit({action: i.calback, row: data})"
+                class="dropdown-item d-flex">
+                <span *ngFor="let j of i.data" [ngSwitch]="j.type">
+                  <div *ngSwitchCase="'text'">
+                    {{ j.path ? getDataFromObject(j.path) : j.label }}
+                  </div>
+                  <div *ngSwitchCase="'icon'">
+                    <i [class]="j.path ? getDataFromObject(j.path) : j.icon + ' icon m-1'"></i>
+                  </div>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="p-3 dtc-collapse" [ngbCollapse]="isCollapsed">
+  <dtc-collapse [data]="collpaseData" [parent]="collpaseParent" [component]="collapsedComponent"></dtc-collapse>
+  <span (click)="isCollapsed = true" class="btn-close-collapse">
+    <i class="nb-arrow-up"></i>
+  </span>
+</div>

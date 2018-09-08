@@ -1,4 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
 import { TableConfig } from '../shared';
 
 @Component({
@@ -6,23 +14,37 @@ import { TableConfig } from '../shared';
   templateUrl: './view.component.html',
   styleUrls: ['./view.component.css']
 })
-export class ViewComponent implements OnInit {
+export class ViewComponent implements OnInit, OnChanges {
+  @Input()
+  config: TableConfig<any>;
 
-  @Input() config: TableConfig<any>;
+  @Input()
+  data: any[];
 
-  @Input() data: any[];
+  @Input()
+  selectAll: Boolean = false;
 
-  @Output() selectRowChanged: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  selectRowChanged: EventEmitter<any> = new EventEmitter<any>();
 
-  @Output() rowClicked: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  rowClicked: EventEmitter<any> = new EventEmitter<any>();
 
-  @Output() rowActionClicked: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  rowActionClicked: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     this.data = this.data.map(item => {
-      item.selected = false;
+      item.selected = this.selectAll;
+      return item;
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.data = this.data.map(item => {
+      item.selected = this.selectAll;
       return item;
     });
   }
@@ -30,5 +52,4 @@ export class ViewComponent implements OnInit {
   handleselectRow(event) {
     this.selectRowChanged.emit(event);
   }
-
 }

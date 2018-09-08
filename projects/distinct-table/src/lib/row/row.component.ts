@@ -38,7 +38,7 @@ export class RowComponent implements OnInit {
 
   collapsedComponent: any;
 
-  showImage: boolean = true;
+  showImage: Boolean = true;
 
   constructor() { }
 
@@ -82,8 +82,7 @@ export class RowComponent implements OnInit {
         this.collpaseData = this.tableConfig.collapseData;
         this.collpaseParent = this.data;
       }
-    }
-    else {
+    } else {
       this.rowClicked.emit(this.data);
     }
   }

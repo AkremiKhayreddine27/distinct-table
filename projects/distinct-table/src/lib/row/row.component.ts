@@ -1,32 +1,45 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
 import { ColConfig, getDataFromObject, TableConfig } from '../shared';
 import { of } from 'rxjs';
-
-/**
- * emit events for cell clicked
- * emit event for phone and email clicked
- */
+import * as faker from 'faker';
 
 @Component({
   selector: 'dtc-row',
   templateUrl: './row.component.html',
   styleUrls: ['./row.component.scss']
 })
-export class RowComponent implements OnInit {
+export class RowComponent implements OnInit, OnChanges {
+  @Input()
+  data: any;
 
-  @Input() data: any;
+  @Input()
+  config: ColConfig<any>[];
 
-  @Input() config: ColConfig<any>[];
+  @Input()
+  mobileConfig: ColConfig<any>[];
 
-  @Input() mobileConfig: ColConfig<any>[];
+  @Input()
+  tableConfig: TableConfig<any>;
 
-  @Input() tableConfig: TableConfig<any>;
+  @Input()
+  selectAll: any = { type: 'event', checked: false };
 
-  @Output() rowClicked: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  rowClicked: EventEmitter<any> = new EventEmitter<any>();
 
-  @Output() rowSelected: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  rowSelected: EventEmitter<any> = new EventEmitter<any>();
 
-  @Output() actionClicked: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  actionClicked: EventEmitter<any> = new EventEmitter<any>();
 
   showActions = false;
 
@@ -40,11 +53,21 @@ export class RowComponent implements OnInit {
 
   showImage: Boolean = true;
 
-  constructor() { }
+  selected: Boolean = false;
+
+  randomColor = faker.commerce.color();
+
+  constructor() {}
 
   ngOnInit() {
     if (this.tableConfig.showActionsType === 'always') {
       this.showActions = true;
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.selectAll && this.selectAll.type === 'event') {
+      this.selected = this.selectAll.checked;
     }
   }
 
@@ -69,7 +92,10 @@ export class RowComponent implements OnInit {
       if (item.collpaseData) {
         this.collpaseData = of(this.getDataFromObject(item.collpaseData));
       }
-      this.collpaseParent = { id: this.getDataFromObject('id'), type: this.getDataFromObject('kind') };
+      this.collpaseParent = {
+        id: this.getDataFromObject('id'),
+        type: this.getDataFromObject('kind')
+      };
     }
   }
 

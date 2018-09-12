@@ -3,15 +3,15 @@
   <div *ngIf="tableConfig.selectType !== 'none'" [style.width.px]="35" [class.align-items-start]="tableConfig.alignDesktop === 'start'"
     [class.align-items-center]="tableConfig.alignDesktop === 'center'" [class.align-items-end]="tableConfig.alignDesktop === 'end'"
     class="d-flex ml-3 pb-3 pt-3 justify-content-center">
-    <div *ngIf="tableConfig.selectType === 'checkbox' || showActions || data.selected" class=" d-flex align-self-center">
+    <div *ngIf="tableConfig.selectType === 'checkbox' || showActions || selected" class=" d-flex align-self-center">
       <label (click)="$event.stopPropagation();" class="checkbox-container">
-        <input (change)="selectRow($event.target.checked)" [(ngModel)]="data.selected" type="checkbox">
+        <input (change)="selectRow($event.target.checked)" [(ngModel)]="selected" type="checkbox">
         <span class="checkmark"></span>
       </label>
     </div>
-    <img *ngIf="!data.selected && tableConfig.selectType === 'image' && getDataFromObject(tableConfig.imagePath) && !showActions"
+    <img *ngIf="!selected && tableConfig.selectType === 'image' && getDataFromObject(tableConfig.imagePath) && !showActions"
       class="table-image align-self-center" [width]="35" [height]="35" [src]="getDataFromObject(tableConfig.imagePath)" />
-    <div *ngIf="(!data.selected && !showActions && tableConfig.selectType === 'letters' && getDataFromObject(tableConfig.lettersPath)) ||(!data.selected && !showActions && tableConfig.selectType === 'image' && getDataFromObject(tableConfig.lettersPath) && !getDataFromObject(tableConfig.imagePath))"
+    <div [style.backgroundColor]="randomColor" *ngIf="(!selected && !showActions && tableConfig.selectType === 'letters' && getDataFromObject(tableConfig.lettersPath)) ||(!selected && !showActions && tableConfig.selectType === 'image' && getDataFromObject(tableConfig.lettersPath) && !getDataFromObject(tableConfig.imagePath))"
       class="table-letter align-self-center">
       {{ getDataFromObject(tableConfig.lettersPath)[0] | uppercase }}
     </div>
@@ -133,15 +133,15 @@
 <div (click)="rowClicked.emit(data);" (mouseenter)="toggleShowActions(true)" (mouseleave)="toggleShowActions(false)" [class.border-bottom]="tableConfig.bordred"
   [class.border-left]="tableConfig.bordred" [class.border-right]="tableConfig.bordred" class="table-row d-flex d-md-none d-lg-none d-xl-none">
   <div *ngIf="tableConfig.selectType !== 'none'" [style.width.px]="25" class="d-flex ml-1 mr-1 pb-3 pt-3 align-items-center justify-content-center">
-    <div *ngIf="tableConfig.selectType === 'checkbox' || showActions || data.selected" class=" d-flex align-self-center">
+    <div *ngIf="tableConfig.selectType === 'checkbox' || showActions || selected" class=" d-flex align-self-center">
       <label (click)="$event.stopPropagation();" class="checkbox-container">
-        <input (change)="selectRow($event.target.checked)" [(ngModel)]="data.selected" type="checkbox">
+        <input (change)="selectRow($event.target.checked)" [(ngModel)]="selected" type="checkbox">
         <span class="checkmark"></span>
       </label>
     </div>
-    <img *ngIf="!data.selected && tableConfig.selectType === 'image' && getDataFromObject(tableConfig.imagePath) && !showActions"
+    <img *ngIf="!selected && tableConfig.selectType === 'image' && getDataFromObject(tableConfig.imagePath) && !showActions"
       class="table-image" [width]="25" [height]="25" [src]="getDataFromObject(tableConfig.imagePath)" />
-    <div *ngIf="(!data.selected && !showActions && tableConfig.selectType === 'letters' && getDataFromObject(tableConfig.lettersPath)) ||(!data.selected && !showActions && tableConfig.selectType === 'image' &&  getDataFromObject(tableConfig.lettersPath) && !getDataFromObject(tableConfig.imagePath))"
+    <div [style.backgroundColor]="randomColor" *ngIf="(!selected && !showActions && tableConfig.selectType === 'letters' && getDataFromObject(tableConfig.lettersPath)) ||(!selected && !showActions && tableConfig.selectType === 'image' &&  getDataFromObject(tableConfig.lettersPath) && !getDataFromObject(tableConfig.imagePath))"
       class="mobile-table-letter">
       {{ getDataFromObject(tableConfig.lettersPath)[0] | uppercase }}
     </div>

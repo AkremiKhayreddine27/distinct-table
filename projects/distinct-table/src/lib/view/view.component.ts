@@ -14,7 +14,7 @@ import { TableConfig } from '../shared';
   templateUrl: './view.component.html',
   styleUrls: ['./view.component.css']
 })
-export class ViewComponent implements OnInit, OnChanges {
+export class ViewComponent implements OnInit {
   @Input()
   config: TableConfig<any>;
 
@@ -22,7 +22,7 @@ export class ViewComponent implements OnInit, OnChanges {
   data: any[];
 
   @Input()
-  selectAll: Boolean = false;
+  selectAll: any = { type: 'event', checked: false };
 
   @Output()
   selectRowChanged: EventEmitter<any> = new EventEmitter<any>();
@@ -35,19 +35,7 @@ export class ViewComponent implements OnInit, OnChanges {
 
   constructor() {}
 
-  ngOnInit() {
-    this.data = this.data.map(item => {
-      item.selected = this.selectAll;
-      return item;
-    });
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    this.data = this.data.map(item => {
-      item.selected = this.selectAll;
-      return item;
-    });
-  }
+  ngOnInit() {}
 
   handleselectRow(event) {
     this.selectRowChanged.emit(event);

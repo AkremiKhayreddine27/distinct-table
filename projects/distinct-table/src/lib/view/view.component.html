@@ -1,5 +1,5 @@
 <div [style.backgroundColor]="config.backgroundColor ? config.backgroundColor : 'transparent'">
     <dtc-header [tableConfig]="config" [config]="config.header" [mobileConfig]="config.mobileHeader" [data]="data"></dtc-header>
-    <dtc-body (rowActionClicked)="rowActionClicked.emit($event)" (rowSelected)="handleselectRow($event)" (rowClicked)="rowClicked.emit($event)"
+    <dtc-body [selectAll]="selectAll" (rowActionClicked)="rowActionClicked.emit($event)" (rowSelected)="handleselectRow($event)" (rowClicked)="rowClicked.emit($event)"
         [config]="config.cols" [mobileConfig]="config.mobileCols" [tableConfig]="config" [data]="data"></dtc-body>
 </div>

@@ -1,2 +1,2 @@
-<dtc-row *ngFor="let row of data" [data]="row" [tableConfig]="tableConfig" [config]="config" [mobileConfig]="mobileConfig"
+<dtc-row *ngFor="let row of data" [data]="row" [selectAll]="selectAll" [tableConfig]="tableConfig" [config]="config" [mobileConfig]="mobileConfig"
     (rowSelected)="rowSelected.emit($event)" (actionClicked)="rowActionClicked.emit($event)" (rowClicked)="rowClicked.emit($event)"></dtc-row>

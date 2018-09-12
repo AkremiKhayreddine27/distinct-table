@@ -1,61 +1,56 @@
 <nb-layout>
-    <nb-layout-header fixed>
-        <div class="row w-100 contacts-header d-flex align-items-center">
-            <div class="col-6 col-md-2 pl-0 d-flex align-items-center">
-                <i (click)="toggle()" class="nb-menu sidebar-toggle mr-3"></i>
-                <img class="logo" src="assets/contacts_64dp.png" />
-                <span class="page-title">
-                    Contacts
-                </span>
-            </div>
-            <div class="col-6 col-md-7 d-none d-md-flex">
-                <div class="input-group header-search ml-4 input-group-lg">
-                    <input type="text" class="form-control" placeholder="Search" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
-                    <div class="input-group-append">
-                        <span class="input-group-text" id="inputGroup-sizing-lg">
-                            <i class="ion ion-md-search"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nb-layout-header>
-    <nb-sidebar responsive>
-        <ul class="list-group sidebar-list-group border-0 p-0">
-            <li class="list-group-item border-0">
-                <i class="fa fa-upload mr-2"></i>
-                Import
-            </li>
-            <li class="list-group-item border-0">
-                <i class="fa fa-download mr-2"></i>
-                Export
-            </li>
-            <li class="list-group-item border-0">
-                <i class="fa fa-cogs mr-2"></i>
-                Settings
-            </li>
-            <li class="list-group-item d-flex justify-content-between with-children border-bottom-0 border-left-0 border-right-0 border-top">
-                <span>
-                    <i class="fa fa-users mr-2"></i>
-                    Groups
-                </span>
-                <i class="ion ion-md-add"></i>
-            </li>
-            <li class="list-group-item border-0">
-                Propriétaire
-            </li>
-            <li class="list-group-item border-0">
-                Locataire
-            </li>
-            <li class="list-group-item border-0">
-                Prestataire de service
-            </li>
-            <li class="list-group-item with-children border-bottom-0 border-left-0 border-right-0 border-top">
-            </li>
-        </ul>
-    </nb-sidebar>
-    <nb-layout-column>
-        <dtc-table (deleteSelectedItems)="handleDeleteSelectedItems($event)" (rowActionClicked)="handleRowActionClicked($event)"
-            (rowClicked)="handleRowClicked($event)" (selectRowChanged)="handleSelectRowChanged($event)" [config]="config" [data]="users"></dtc-table>
-    </nb-layout-column>
+  <nb-layout-header fixed>
+    <app-header class="w-100"></app-header>
+  </nb-layout-header>
+  <nb-sidebar responsive>
+    <ul class="list-group sidebar-list-group border-0 p-0">
+      <li class="list-group-item border-0">
+        <i class="fa fa-upload mr-2"></i>
+        Import
+      </li>
+      <li class="list-group-item border-0">
+        <i class="fa fa-download mr-2"></i>
+        Export
+      </li>
+      <li class="list-group-item border-0">
+        <i class="fa fa-cogs mr-2"></i>
+        Settings
+      </li>
+      <li class="list-group-item d-flex justify-content-between with-children border-bottom-0 border-left-0 border-right-0 border-top">
+        <span>
+          <i class="fa fa-users mr-2"></i>
+          Groups
+        </span>
+        <i class="ion ion-md-add"></i>
+      </li>
+      <li class="list-group-item border-0">
+        Propriétaire
+      </li>
+      <li class="list-group-item border-0">
+        Locataire
+      </li>
+      <li class="list-group-item border-0">
+        Prestataire de service
+      </li>
+      <li class="list-group-item with-children border-bottom-0 border-left-0 border-right-0 border-top">
+      </li>
+    </ul>
+  </nb-sidebar>
+  <nb-layout-column>
+    <div *ngIf="selectedData.length > 0" class="d-flex justify-content-between mb-3">
+      <span class="d-flex contacts-checkbox align-items-center pl-3 m-0">
+        <label (click)="$event.stopPropagation();" class="checkbox-container mr-2">
+          <input [(ngModel)]="allSelected.checked" (change)="handleSelectAllChanged($event)" type="checkbox">
+          <span class="checkmark"></span>
+        </label>
+        {{ allSelected.checked ? users.length : selectedData.length }} sélectionnés
+      </span>
+      <div class="contacts-select-actions d-flex pr-3">
+        <i class="fa fa-trash mr-3"></i>
+        <i class="fa fa-download"></i>
+      </div>
+    </div>
+    <dtc-table [selectAll]="allSelected" (rowActionClicked)="handleRowActionClicked($event)" (rowClicked)="handleRowClicked($event)"
+      (selectRowChanged)="handleSelectRowChanged($event)" [config]="config" [data]="users"></dtc-table>
+  </nb-layout-column>
 </nb-layout>

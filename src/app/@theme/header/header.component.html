@@ -1,0 +1,56 @@
+<div class="row contacts-header d-flex align-items-center">
+  <div class="col-6 col-md-2 pl-0 d-flex align-items-center">
+    <i (click)="toggle()" class="nb-menu sidebar-toggle mr-2"></i>
+    <img class="logo" src="assets/contacts_64dp.png" />
+    <span class="d-none d-md-block page-title">
+      Contacts
+    </span>
+  </div>
+  <div ngbDropdown autoClose="false" class="col-6 col-md-7 d-none d-md-block">
+    <div class="input-group header-search ml-4 input-group-lg">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-lg">
+          <i class="ion ion-md-search"></i>
+        </span>
+      </div>
+      <input type="text" class="form-control" placeholder="Search" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+      <div ngbDropdownToggle class="input-group-append">
+        <span class="input-group-text" id="inputGroup-sizing-lg">
+          <i class="ion ion-md-arrow-dropdown"></i>
+        </span>
+      </div>
+    </div>
+    <ul ngbDropdownMenu class="dropdown-menu header-dropdown dropdown-menu-right">
+      <li class="header-dropdown-item">
+        <div class="form-group d-flex align-items-center row">
+          <label class="form-control-label col-md-3">Type</label>
+          <div class="col-md-9 ">
+            <ng-select class="w-100" (change)="filter($event)" [items]="types" placeholder="Select Type" bindLabel="value" bindValue="id"></ng-select>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-3 pr-0 col-6">
+    <div class="d-flex header-menu align-items-center justify-content-end">
+      <nb-actions size="small">
+        <nb-action class="control-item d-flex d-md-none" icon="ion ion-md-search"></nb-action>
+        <nb-action class="control-item" icon="ion ion-md-notifications-outline"></nb-action>
+        <nb-action class="control-item" icon="ion ion-md-person"></nb-action>
+        <nb-action>
+          <div ngbDropdown class="d-md-block">
+            <i ngbDropdownToggle class="header-icon nb-grid-b"></i>
+            <ul ngbDropdownMenu class="dropdown-menu header-dropdown-apps dropdown-menu-right">
+              <li class="header-dropdown-item m-0 row">
+                <a *ngFor="let app of apps" [href]="app.link" target="_blank" class="app col-6">
+                  <img class="logo" [src]="app.logo" />
+                  {{ app.name }}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nb-action>
+      </nb-actions>
+    </div>
+  </div>
+</div>

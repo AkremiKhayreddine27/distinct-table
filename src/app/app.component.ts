@@ -1,196 +1,35 @@
-import { Component } from '@angular/core';
-
-import { NbSidebarService } from '@nebular/theme';
-
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  OnDestroy,
+} from '@angular/core';
 import { TableConfig } from '../../projects/distinct-table/src/public_api';
 import { of } from 'rxjs';
 
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { Store } from '@ngrx/store';
+import * as fromStore from './@core/store';
+
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ShowComponent } from './show/show.component';
 import { DeleteComponent } from './delete/delete.component';
-
+import { delay, takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
+  users$;
+  users = [];
 
   title = 'app';
-
-  groups = [
-    {
-      id: 1,
-      name: 'Locataire'
-    },
-    {
-      id: 2,
-      name: 'Prestataire de service'
-    },
-    {
-      id: 3,
-      name: 'Propriétaire'
-    }
+  groups: any[] = [
+    { id: 1, value: 'propriétaire' },
+    { id: 2, value: 'locataire' },
+    { id: 3, value: 'prestataire de service' }
   ];
-
-  users = [
-    {
-      id: 1,
-      firstname: 'Akremi',
-      lastname: 'Khayreddine',
-      email: 'khayreddine.akremi@gmail.com',
-      phone: '+216 25 168 368',
-      avatar: '',
-      status: 'active',
-      groups: [1, 2],
-      location: {
-        address: 'Info Municipale, Chemin de Bretagne',
-        postCode: '92130',
-        city: 'Issy-les-Moulineaux',
-        country: 'France',
-        state: 'Ile-de-France'
-      }
-    },
-    {
-      id: 2,
-      firstname: 'Doe',
-      lastname: 'Jhon',
-      email: 'khayreddine.akremi@gmail.com',
-      phone: '+216 25 168 368',
-      avatar: 'assets/alan.png',
-      status: 'active',
-      groups: [2, 3],
-      location: {
-        address: 'Info Municipale, Chemin de Bretagne',
-        postCode: '92130',
-        city: 'Issy-les-Moulineaux',
-        country: 'France',
-        state: 'Ile-de-France'
-      }
-    },
-    {
-      id: 3,
-      firstname: 'Akremi',
-      lastname: 'Khayreddine',
-      email: 'khayreddine.akremi@gmail.com',
-      phone: '+216 25 168 368',
-      avatar: 'assets/alan.png',
-      status: 'inactive',
-      groups: [1, 2],
-      location: {
-        address: 'Info Municipale, Chemin de Bretagne',
-        postCode: '92130',
-        city: 'Issy-les-Moulineaux',
-        country: 'France',
-        state: 'Ile-de-France'
-      }
-    },
-    {
-      id: 4,
-      firstname: 'Akremi',
-      lastname: 'Khayreddine',
-      email: 'khayreddine.akremi@gmail.com',
-      phone: '+216 25 168 368',
-      avatar: 'assets/alan.png',
-      status: 'active',
-      groups: [1, 3],
-      location: {
-        address: 'Info Municipale, Chemin de Bretagne',
-        postCode: '92130',
-        city: 'Issy-les-Moulineaux',
-        country: 'France',
-        state: 'Ile-de-France'
-      }
-    },
-    {
-      id: 5,
-      firstname: 'Akremi',
-      lastname: 'Khayreddine',
-      email: 'khayreddine.akremi@gmail.com',
-      phone: '+216 25 168 368',
-      avatar: 'assets/alan.png',
-      status: 'active',
-      groups: [1, 2],
-      location: {
-        address: 'Info Municipale, Chemin de Bretagne',
-        postCode: '92130',
-        city: 'Issy-les-Moulineaux',
-        country: 'France',
-        state: 'Ile-de-France'
-      }
-    },
-    {
-      id: 6,
-      firstname: 'Akremi',
-      lastname: 'Khayreddine',
-      email: 'khayreddine.akremi@gmail.com',
-      phone: '+216 25 168 368',
-      avatar: 'assets/alan.png',
-      status: 'active',
-      groups: [2, 3],
-      location: {
-        address: 'Info Municipale, Chemin de Bretagne',
-        postCode: '92130',
-        city: 'Issy-les-Moulineaux',
-        country: 'France',
-        state: 'Ile-de-France'
-      }
-    },
-    {
-      id: 7,
-      firstname: 'Akremi',
-      lastname: 'Khayreddine',
-      email: 'khayreddine.akremi@gmail.com',
-      phone: '+216 25 168 368',
-      avatar: 'assets/alan.png',
-      status: 'active',
-      groups: [1, 2],
-      location: {
-        address: 'Info Municipale, Chemin de Bretagne',
-        postCode: '92130',
-        city: 'Issy-les-Moulineaux',
-        country: 'France',
-        state: 'Ile-de-France'
-      }
-    },
-    {
-      id: 8,
-      firstname: 'Akremi',
-      lastname: 'Khayreddine',
-      email: 'khayreddine.akremi@gmail.com',
-      phone: '+216 25 168 368',
-      avatar: 'assets/alan.png',
-      status: 'active',
-      groups: [1, 2],
-      location: {
-        address: 'Info Municipale, Chemin de Bretagne',
-        postCode: '92130',
-        city: 'Issy-les-Moulineaux',
-        country: 'France',
-        state: 'Ile-de-France'
-      }
-    },
-    {
-      id: 9,
-      firstname: 'Akremi',
-      lastname: 'Khayreddine',
-      email: 'khayreddine.akremi@gmail.com',
-      phone: '+216 25 168 368',
-      avatar: 'assets/alan.png',
-      status: 'active',
-      groups: [1, 2],
-      location: {
-        address: 'Info Municipale, Chemin de Bretagne',
-        postCode: '92130',
-        city: 'Issy-les-Moulineaux',
-        country: 'France',
-        state: 'Ile-de-France'
-      }
-    }
-  ]
-
-
   config: TableConfig<any> = {
     displayHeader: true,
     bordred: false,
@@ -207,7 +46,7 @@ export class AppComponent {
         sort: {
           attributes: [
             { name: 'First name', path: 'firstname', direction: 'desc' },
-            { name: 'Last name', path: 'lastname', direction: 'desc' },
+            { name: 'Last name', path: 'lastname', direction: 'desc' }
           ]
         }
       },
@@ -215,18 +54,14 @@ export class AppComponent {
         width: 'col-3',
         label: 'E-mail',
         sort: {
-          attributes: [
-            { name: 'E-mail', path: 'email', direction: 'desc' },
-          ]
+          attributes: [{ name: 'E-mail', path: 'email', direction: 'desc' }]
         }
       },
       {
         width: 'col-2',
         label: 'Phone',
         sort: {
-          attributes: [
-            { name: 'Phone', path: 'phone', direction: 'desc' },
-          ]
+          attributes: [{ name: 'Phone', path: 'phone', direction: 'desc' }]
         }
       },
       {
@@ -235,9 +70,13 @@ export class AppComponent {
         sort: {
           attributes: [
             { name: 'Address', path: 'location.address', direction: 'desc' },
-            { name: 'Postal code', path: 'location.postCode', direction: 'desc' },
+            {
+              name: 'Postal code',
+              path: 'location.postcode',
+              direction: 'desc'
+            },
             { name: 'City', path: 'location.city', direction: 'desc' },
-            { name: 'Country', path: 'location.country', direction: 'desc' },
+            { name: 'Country', path: 'location.country', direction: 'desc' }
           ]
         }
       },
@@ -258,7 +97,7 @@ export class AppComponent {
             { name: 'E-mail', path: 'email', direction: 'desc' }
           ]
         }
-      },
+      }
     ],
     cols: [
       {
@@ -273,7 +112,7 @@ export class AppComponent {
               {
                 type: 'text',
                 path: 'lastname'
-              },
+              }
             ],
             align: true
           },
@@ -282,16 +121,16 @@ export class AppComponent {
               {
                 type: 'array',
                 path: 'groups',
-                getData: (id) => {
+                getData: id => {
                   return this.groups.find(group => {
                     return group.id === id;
-                  }).name;
+                  }).value;
                 }
-              },
+              }
             ],
             align: true
           }
-        ],
+        ]
       },
       {
         width: 'col-3',
@@ -305,11 +144,11 @@ export class AppComponent {
               {
                 type: 'email',
                 path: 'email'
-              },
+              }
             ],
             align: true
           }
-        ],
+        ]
       },
       {
         width: 'col-2',
@@ -323,28 +162,11 @@ export class AppComponent {
               {
                 type: 'phone',
                 path: 'phone'
-              },
-            ],
-            align: true
-          },
-          /*
-          {
-            line: [
-              {
-                type: 'collapse',
-                label: 'details',
-                component: AppComponent,
-                getData: (id) => {
-                  return of(this.users.find(user => {
-                    return user.id === id;
-                  }));
-                }
               }
             ],
             align: true
-          },
-          */
-        ],
+          }
+        ]
       },
       {
         width: 'col-4',
@@ -362,12 +184,12 @@ export class AppComponent {
             line: [
               {
                 type: 'text',
-                path: 'location.postCode'
+                path: 'location.postcode'
               },
               {
                 type: 'text',
                 path: 'location.city'
-              },
+              }
             ],
             align: true
           },
@@ -383,19 +205,9 @@ export class AppComponent {
               }
             ],
             align: true
-          },
-          {
-            line: [
-              {
-                type: 'collapse',
-                label: 'details',
-                component: DeleteComponent,
-              }
-            ],
-            align: true
-          },
-        ],
-      },
+          }
+        ]
+      }
     ],
     mobileCols: [
       {
@@ -410,7 +222,7 @@ export class AppComponent {
               {
                 type: 'text',
                 path: 'lastname'
-              },
+              }
             ],
             align: true
           },
@@ -423,7 +235,7 @@ export class AppComponent {
               {
                 type: 'phone',
                 path: 'phone'
-              },
+              }
             ],
             align: true
           },
@@ -436,18 +248,18 @@ export class AppComponent {
               {
                 type: 'email',
                 path: 'email'
-              },
+              }
             ],
             align: true
-          },
-        ],
-      },
+          }
+        ]
+      }
     ],
     desktopActions: [
       {
         type: 'icon',
         icon: 'fa fa-edit',
-        calback: 'edit',
+        calback: 'edit'
       },
       {
         type: 'dropdown',
@@ -500,12 +312,43 @@ export class AppComponent {
         }
       }
     ]
+  };
+
+  selectedData: any[] = [];
+  allSelected: any = { type: 'event', checked: false };
+
+  filtersConf = { filters: [], andOperator: true };
+
+  alive = true;
+
+  constructor(
+    private store: Store<fromStore.LocatusState>,
+    private modalService: NgbModal
+  ) {}
+
+  ngOnInit() {
+    this.store
+      .select<any>(fromStore.getPaginatedSortedFiltredContacts)
+      .pipe(
+        delay(50),
+        takeWhile(() => this.alive)
+      )
+      .subscribe(users => {
+        this.users = users;
+      });
   }
 
-  constructor(private modalService: NgbModal, private sidebarService: NbSidebarService) { }
+  ngAfterViewInit() {
+    this.store.dispatch(
+      new fromStore.LoadContacts(this.filtersConf, [], {
+        page: 1,
+        perPage: 20
+      })
+    );
+  }
 
-  toggle() {
-    this.sidebarService.toggle(false, 'left');
+  ngOnDestroy() {
+    this.alive = false;
   }
 
   handleRowClicked(row) {
@@ -513,11 +356,30 @@ export class AppComponent {
     modalRef.componentInstance.contact = row;
   }
 
-  handleSelectRowChanged(row) {
-    console.log(row);
+  handleSelectRowChanged(event) {
+    if (event.checked) {
+      this.selectedData.push(event.row);
+    } else {
+      this.selectedData = this.selectedData.filter(item => {
+        return item.id !== event.row.id;
+      });
+    }
+    this.allSelected = {
+      type: 'change',
+      checked: this.selectedData.length === this.users.length
+    };
   }
 
-  handleRowActionClicked(event: { action: string, row: any }) {
+  handleSelectAllChanged($event) {
+    this.allSelected = { type: 'event', checked: this.allSelected.checked };
+    if (this.allSelected.checked) {
+      this.selectedData = this.users;
+    } else {
+      this.selectedData = [];
+    }
+  }
+
+  handleRowActionClicked(event: { action: string; row: any }) {
     this[event.action](event.row);
   }
 
@@ -534,5 +396,4 @@ export class AppComponent {
   delete(user) {
     console.log(user);
   }
-
 }

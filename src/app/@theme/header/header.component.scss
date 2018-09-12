@@ -1,0 +1,100 @@
+.header-icon, /deep/ nb-action .icon-container .control-icon {
+  font-size: 1.5rem;
+  color: #a4abb3 !important;
+  cursor: pointer;
+}
+/deep/ nb-action {
+  padding: 0 1rem !important;
+}
+.header-icon:hover, /deep/ nb-action .icon-container .control-icon:hover {
+  color: #000000 !important;
+}
+.contacts-header {
+  height: 60px;
+}
+
+.sidebar-toggle {
+  font-size: 2.4rem;
+  cursor: pointer;
+}
+
+.logo {
+  height: 41px;
+  width: 41px;
+}
+
+.page-title {
+  display: inline-block;
+  font-size: 20px;
+  line-height: 24px;
+  padding-left: 8px;
+  position: relative;
+  top: -1.5px;
+  vertical-align: middle;
+  opacity: 0.54;
+}
+
+.dropdown.show .header-dropdown-apps {
+  min-width: 220px !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  padding: 0;
+  margin: 0;
+  .header-dropdown-item {
+    padding: 15px !important;
+  }
+  .app {
+    padding: 10px;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  .app:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+}
+
+.header-search {
+}
+
+.header-dropdown-item {
+  padding: 15px 10px !important;
+  color: black;
+}
+.dropdown.show .header-dropdown.dropdown-menu.show {
+  border: none !important;
+  right: -9px !important;
+  width: calc(100% - 30px) !important;
+  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
+}
+
+.input-group-append.dropdown-toggle {
+  width: auto !important;
+}
+
+.header-search .input-group-append {
+  margin-left: 0;
+  cursor: pointer;
+}
+
+.header-search .input-group-prepend {
+  margin-right: 0;
+}
+
+.header-search .input-group-append .input-group-text {
+  background-color: rgba(0, 0, 0, 0.04);
+  border: none;
+}
+
+.header-search .input-group-prepend .input-group-text {
+  background-color: rgba(0, 0, 0, 0.04);
+  border: none;
+}
+
+.header-search .form-control {
+  border: none;
+  background-color: rgba(0, 0, 0, 0.04);
+}

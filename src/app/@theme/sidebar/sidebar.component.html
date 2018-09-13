@@ -1,0 +1,31 @@
+<ul class="list-group sidebar-list-group border-0 p-0">
+  <li class="list-group-item border-0">
+    <i class="ti ti-upload mr-2"></i>
+    Import
+  </li>
+  <li class="list-group-item border-0">
+    <i class="ti ti-download mr-2"></i>
+    Export
+  </li>
+  <li class="list-group-item border-0">
+    <i class="ti ti-settings mr-2"></i>
+    Settings
+  </li>
+  <li class="list-group-item d-flex justify-content-between with-children border-bottom-0 border-left-0 border-right-0 border-top">
+    <span>
+      <i class="lnr lnr-users mr-2"></i>
+      Groups
+    </span>
+    <i (click)="createGroup()" class="ti ti-plus"></i>
+  </li>
+  <li class="list-group-item border-0" (click)="filter(null)">Tous</li>
+  <li *ngFor="let group of groups" (click)="filter(group)" class="list-group-item d-flex justify-content-between border-0">
+    {{ group.name }}
+    <div class="d-flex">
+      <i (click)="$event.stopPropagation();editGroup(group)" class="group-action-icon ti ti-pencil"></i>
+      <i (click)="deleteGroup(group)" class="group-action-icon ti ti-trash"></i>
+    </div>
+  </li>
+  <li class="list-group-item with-children border-bottom-0 border-left-0 border-right-0 border-top">
+  </li>
+</ul>

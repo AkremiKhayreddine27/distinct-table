@@ -1,0 +1,54 @@
+.sidebar-list-group {
+  margin: -1.25rem;
+}
+.list-group-item {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  color: #707070;
+  display: flex;
+  align-items: center;
+  outline: 0;
+  overflow: hidden;
+  height: 50px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  text-transform: capitalize;
+  i {
+    font-weight: 500;
+  }
+}
+
+.lnr {
+  font-size: 1.2rem;
+}
+
+.group-action-icon,
+.ti-plus {
+  font-size: 1rem;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.group-action-icon:hover,
+.ti-plus:hover {
+  background-color: rgba(0, 0, 0, 0.07);
+}
+
+.list-group-item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
+
+.list-group-item .ion {
+  font-size: 16px;
+}
+
+.with-children:hover {
+  background-color: transparent;
+  cursor: pointer;
+}

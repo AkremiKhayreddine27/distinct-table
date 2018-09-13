@@ -6,7 +6,11 @@ import { ThemeModule } from './@theme/theme.module';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+
 import { CoreModule } from './@core/core.module';
+
+import { NgSelectModule } from '@ng-select/ng-select';
 
 import { StoreModule, MetaReducer } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -31,10 +35,12 @@ import {
 import { DistinctTableModule } from '../../projects/distinct-table/src/public_api';
 import { ShowComponent } from './show/show.component';
 import { DeleteComponent } from './delete/delete.component';
+import { CreateGroupComponent } from './create-group/create-group.component';
+import { DeleteGroupComponent } from './delete-group/delete-group.component';
 
 @NgModule({
-  declarations: [AppComponent, ShowComponent, DeleteComponent],
-  entryComponents: [ShowComponent, DeleteComponent],
+  declarations: [AppComponent, ShowComponent, DeleteComponent, CreateGroupComponent, DeleteGroupComponent],
+  entryComponents: [ShowComponent, DeleteComponent, CreateGroupComponent, DeleteGroupComponent],
   imports: [
     BrowserModule,
     RouterModule.forRoot([], { useHash: true }),
@@ -49,13 +55,14 @@ import { DeleteComponent } from './delete/delete.component';
     DistinctTableModule,
     FormsModule,
     ReactiveFormsModule,
-
+    NgSelectModule,
+    InfiniteScrollModule,
     CoreModule,
     StoreModule.forRoot({}, { metaReducers }),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({
-      maxAge: 35,
-    }),
+      maxAge: 35
+    })
   ],
   providers: [NbSidebarService],
   bootstrap: [AppComponent]

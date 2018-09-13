@@ -1,9 +1,4 @@
-import {
-  Component,
-  OnInit,
-  AfterViewInit,
-  OnDestroy,
-} from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { TableConfig } from '../../projects/distinct-table/src/public_api';
 import { of } from 'rxjs';
 
@@ -14,22 +9,24 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ShowComponent } from './show/show.component';
 import { DeleteComponent } from './delete/delete.component';
 import { delay, takeWhile } from 'rxjs/operators';
+import { Group } from './@core/models/group';
+import { Pagination } from './@core/store/helpers';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   users$;
   users = [];
 
   title = 'app';
-  groups: any[] = [
-    { id: 1, value: 'propriétaire' },
-    { id: 2, value: 'locataire' },
-    { id: 3, value: 'prestataire de service' }
-  ];
+
+  groups: Group[] = [];
+
+  pagination: Pagination = { page: 1, perPage: 10 };
+
   config: TableConfig<any> = {
     displayHeader: true,
     bordred: false,
@@ -124,7 +121,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
                 getData: id => {
                   return this.groups.find(group => {
                     return group.id === id;
-                  }).value;
+                  }).name;
                 }
               }
             ],
@@ -139,7 +136,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
             line: [
               {
                 type: 'icon',
-                icon: 'fa fa-envelope'
+                icon: 'lnr lnr-envelope'
               },
               {
                 type: 'email',
@@ -157,7 +154,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
             line: [
               {
                 type: 'icon',
-                icon: 'fa fa-phone'
+                icon: 'lnr lnr-phone'
               },
               {
                 type: 'phone',
@@ -230,7 +227,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
             line: [
               {
                 type: 'icon',
-                icon: 'fa fa-phone'
+                icon: 'lnr lnr-phone'
               },
               {
                 type: 'phone',
@@ -243,7 +240,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
             line: [
               {
                 type: 'icon',
-                icon: 'fa fa-envelope'
+                icon: 'lnr lnr-envelope'
               },
               {
                 type: 'email',
@@ -258,7 +255,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     desktopActions: [
       {
         type: 'icon',
-        icon: 'fa fa-edit',
+        icon: 'ti ti-pencil',
         calback: 'edit'
       },
       {
@@ -266,14 +263,14 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         dropdownConfig: {
           toggle: {
             type: 'icon',
-            icon: 'fa fa-ellipsis-v'
+            icon: 'ti ti-more'
           },
           items: [
             {
               data: [
                 {
                   type: 'icon',
-                  icon: 'fa fa-trash'
+                  icon: 'ti ti-trash'
                 },
                 {
                   type: 'text',
@@ -292,14 +289,14 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         dropdownConfig: {
           toggle: {
             type: 'icon',
-            icon: 'fa fa-ellipsis-v'
+            icon: 'ti ti-more'
           },
           items: [
             {
               data: [
                 {
                   type: 'icon',
-                  icon: 'fa fa-trash'
+                  icon: 'ti ti-trash'
                 },
                 {
                   type: 'text',
@@ -327,6 +324,9 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.store.select(fromStore.getAllGroups).subscribe(groups => {
+      this.groups = groups;
+    });
     this.store
       .select<any>(fromStore.getPaginatedSortedFiltredContacts)
       .pipe(
@@ -340,15 +340,34 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.store.dispatch(
-      new fromStore.LoadContacts(this.filtersConf, [], {
-        page: 1,
-        perPage: 20
-      })
+      new fromStore.LoadContacts(
+        this.filtersConf,
+        [{ field: 'createdAt', direction: 'desc' }],
+        {
+          page: 1,
+          perPage: 10
+        }
+      )
     );
   }
 
   ngOnDestroy() {
     this.alive = false;
+  }
+
+  onScroll() {
+    this.pagination.perPage += 10;
+    let filtersConf;
+    this.store.select(fromStore.getContactsFilters).subscribe(filters => {
+      filtersConf = filters;
+    });
+    this.store.dispatch(
+      new fromStore.LoadContacts(
+        filtersConf,
+        [{ field: 'createdAt', direction: 'desc' }],
+        this.pagination
+      )
+    );
   }
 
   handleRowClicked(row) {
@@ -387,13 +406,26 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log(items);
   }
 
+  create() {
+    const modalRef = this.modalService.open(ShowComponent);
+    modalRef.componentInstance.edit = true;
+  }
+
   edit(user) {
     const modalRef = this.modalService.open(ShowComponent);
     modalRef.componentInstance.contact = user;
     modalRef.componentInstance.edit = true;
   }
 
-  delete(user) {
-    console.log(user);
+  delete(user = null) {
+    const modalRef = this.modalService.open(DeleteComponent);
+    modalRef.componentInstance.contacts = user ? [user] : this.selectedData;
+    modalRef.result.then(result => {}).catch(reason => {
+      this.selectedData = [];
+      this.allSelected = {
+        type: 'event',
+        checked: false
+      };
+    });
   }
 }

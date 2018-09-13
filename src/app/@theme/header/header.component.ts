@@ -40,6 +40,8 @@ export class HeaderComponent implements OnInit {
 
   filtersConf;
 
+  showMobileSearch: Boolean = false;
+
   constructor(
     private store: Store<fromStore.LocatusState>,
     private sidebarService: NbSidebarService
@@ -47,6 +49,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new fromStore.GenerateContactsData());
+    this.store.dispatch(new fromStore.GenerateGroupsData());
   }
 
   toggle() {
@@ -54,7 +57,6 @@ export class HeaderComponent implements OnInit {
   }
 
   filter($event) {
-    console.log($event);
     if ($event) {
       this.filtersConf = {
         filters: [

@@ -1,3 +1,5 @@
 import { ContactsEffects } from './contacts.effect';
-export const effects = [ContactsEffects];
+import { GroupsEffects } from './groups.effect';
+export const effects = [ContactsEffects, GroupsEffects];
 export * from './contacts.effect';
+export * from './groups.effect';

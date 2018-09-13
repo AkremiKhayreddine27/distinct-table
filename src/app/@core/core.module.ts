@@ -6,6 +6,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers, effects } from './store';
 
 import { ContactsService } from './services/contacts.service';
+import { GroupsService } from './services/groups.service';
 
 @NgModule({
   imports: [
@@ -14,6 +15,6 @@ import { ContactsService } from './services/contacts.service';
     EffectsModule.forFeature(effects)
   ],
   declarations: [],
-  providers: [ContactsService]
+  providers: [ContactsService, GroupsService]
 })
 export class CoreModule {}

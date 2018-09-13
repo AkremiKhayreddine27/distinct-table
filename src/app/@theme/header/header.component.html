@@ -1,4 +1,4 @@
-<div class="row contacts-header d-flex align-items-center">
+<div class="row d-none d-md-flex contacts-header align-items-center">
   <div class="col-6 col-md-2 pl-0 d-flex align-items-center">
     <i (click)="toggle()" class="nb-menu sidebar-toggle mr-2"></i>
     <img class="logo" src="assets/contacts_64dp.png" />
@@ -10,7 +10,7 @@
     <div class="input-group header-search ml-4 input-group-lg">
       <div class="input-group-prepend">
         <span class="input-group-text" id="inputGroup-sizing-lg">
-          <i class="ion ion-md-search"></i>
+          <i class="ti ti-search"></i>
         </span>
       </div>
       <input type="text" class="form-control" placeholder="Search" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
@@ -25,7 +25,8 @@
         <div class="form-group d-flex align-items-center row">
           <label class="form-control-label col-md-3">Type</label>
           <div class="col-md-9 ">
-            <ng-select class="w-100" (change)="filter($event)" [items]="types" placeholder="Select Type" bindLabel="value" bindValue="id"></ng-select>
+            <ng-select class="w-100" (change)="filter($event)" [items]="types" placeholder="Select Type" bindLabel="value"
+              bindValue="id"></ng-select>
           </div>
         </div>
       </li>
@@ -33,13 +34,13 @@
   </div>
   <div class="col-md-3 pr-0 col-6">
     <div class="d-flex header-menu align-items-center justify-content-end">
-      <nb-actions size="small">
-        <nb-action class="control-item d-flex d-md-none" icon="ion ion-md-search"></nb-action>
-        <nb-action class="control-item" icon="ion ion-md-notifications-outline"></nb-action>
-        <nb-action class="control-item" icon="ion ion-md-person"></nb-action>
+      <nb-actions size="xsmall">
+        <nb-action (click)="showMobileSearch = true" class="control-item d-flex d-md-none" icon="ti ti-search"></nb-action>
+        <nb-action class="control-item" icon="ti ti-bell"></nb-action>
+        <nb-action class="control-item" icon="ti ti-user"></nb-action>
         <nb-action>
           <div ngbDropdown class="d-md-block">
-            <i ngbDropdownToggle class="header-icon nb-grid-b"></i>
+            <i ngbDropdownToggle class="header-icon ti ti-layout-grid3-alt"></i>
             <ul ngbDropdownMenu class="dropdown-menu header-dropdown-apps dropdown-menu-right">
               <li class="header-dropdown-item m-0 row">
                 <a *ngFor="let app of apps" [href]="app.link" target="_blank" class="app col-6">
@@ -53,4 +54,64 @@
       </nb-actions>
     </div>
   </div>
+</div>
+
+<div *ngIf="!showMobileSearch" class="row contacts-header d-md-none d-lg-none d-xl-none d-flex align-items-center">
+  <div class="col-6 col-md-2 pl-0 d-flex align-items-center">
+    <i (click)="toggle()" class="nb-menu sidebar-toggle mr-2"></i>
+    <img class="logo" src="assets/contacts_64dp.png" />
+  </div>
+  <div class="col-md-3 pr-0 col-6">
+    <div class="d-flex header-menu align-items-center justify-content-end">
+      <nb-actions size="xsmall">
+        <nb-action (click)="showMobileSearch = true" class="control-item d-flex d-md-none" icon="ti ti-search"></nb-action>
+        <nb-action class="control-item" icon="ti ti-bell"></nb-action>
+        <nb-action class="control-item" icon="ti ti-user"></nb-action>
+        <nb-action>
+          <div ngbDropdown class="d-md-block">
+            <i ngbDropdownToggle class="header-icon ti ti-layout-grid3-alt"></i>
+            <ul ngbDropdownMenu class="dropdown-menu header-dropdown-apps dropdown-menu-right">
+              <li class="header-dropdown-item m-0 row">
+                <a *ngFor="let app of apps" [href]="app.link" target="_blank" class="app col-6">
+                  <img class="logo" [src]="app.logo" />
+                  {{ app.name }}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nb-action>
+      </nb-actions>
+    </div>
+  </div>
+</div>
+<div *ngIf="showMobileSearch" ngbDropdown autoClose="false" class="mobile-header-search d-md-none d-lg-none d-xl-none d-flex">
+  <div class="input-group header-search input-group-lg">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="inputGroup-sizing-lg">
+        <i class="ti ti-search"></i>
+      </span>
+    </div>
+    <input type="text" class="form-control" placeholder="Search" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+    <div ngbDropdownToggle class="input-group-append">
+      <span class="input-group-text" id="inputGroup-sizing-lg">
+        <i class="ion ion-md-arrow-dropdown"></i>
+      </span>
+    </div>
+    <div (click)="showMobileSearch = false" class="input-group-append">
+      <span class="input-group-text" id="inputGroup-sizing-lg">
+        <i class="ti ti-close"></i>
+      </span>
+    </div>
+  </div>
+  <ul ngbDropdownMenu class="dropdown-menu header-dropdown dropdown-menu-right">
+    <li class="header-dropdown-item">
+      <div class="form-group d-flex align-items-center row">
+        <label class="form-control-label col-md-3">Type</label>
+        <div class="col-md-9 ">
+          <ng-select class="w-100" (change)="filter($event)" [items]="types" placeholder="Select Type" bindLabel="value"
+            bindValue="id"></ng-select>
+        </div>
+      </div>
+    </li>
+  </ul>
 </div>

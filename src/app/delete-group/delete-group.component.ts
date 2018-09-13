@@ -2,15 +2,16 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../@core/store';
-import { User } from '../@core/models';
+import { Group } from '../@core/models';
+
 @Component({
-  selector: 'app-delete',
-  templateUrl: './delete.component.html',
-  styleUrls: ['./delete.component.scss']
+  selector: 'app-delete-group',
+  templateUrl: './delete-group.component.html',
+  styleUrls: ['./delete-group.component.scss']
 })
-export class DeleteComponent implements OnInit {
+export class DeleteGroupComponent implements OnInit {
   @Input()
-  contacts: User[];
+  group: Group;
 
   constructor(
     private store: Store<fromStore.LocatusState>,
@@ -20,9 +21,7 @@ export class DeleteComponent implements OnInit {
   ngOnInit() {}
 
   delete() {
-    for (const contact of this.contacts) {
-      this.store.dispatch(new fromStore.DeleteContact(contact.id));
-    }
+    this.store.dispatch(new fromStore.DeleteGroup(this.group.id));
     this.activeModal.dismiss();
   }
 }

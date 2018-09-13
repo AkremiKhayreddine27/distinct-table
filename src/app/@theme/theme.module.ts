@@ -7,6 +7,7 @@ import { NbActionsModule, NbUserModule } from '@nebular/theme';
 
 import { LayoutComponent } from './layout/layout.component';
 import { HeaderComponent } from './header/header.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
   imports: [
@@ -16,7 +17,7 @@ import { HeaderComponent } from './header/header.component';
     NbActionsModule,
     NbUserModule
   ],
-  declarations: [LayoutComponent, HeaderComponent],
-  exports: [HeaderComponent]
+  declarations: [LayoutComponent, HeaderComponent, SidebarComponent],
+  exports: [HeaderComponent, SidebarComponent]
 })
 export class ThemeModule {}

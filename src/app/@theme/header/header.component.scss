@@ -1,12 +1,31 @@
-.header-icon, /deep/ nb-action .icon-container .control-icon {
-  font-size: 1.5rem;
-  color: #a4abb3 !important;
+.mobile-header-search {
+  height: 60px !important;
+  margin-left: -1.25rem;
+  width: 100vw;
+  .input-group-prepend span,
+  .input-group-append span,
+  input {
+    height: 60px !important;
+  }
+}
+.form-control::placeholder {
+  font-size: 15px !important;
+  color: rgba(0, 0, 0, 0.4) !important;
+}
+.header-icon,
+/deep/ nb-action .icon-container .control-icon {
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.5) !important;
   cursor: pointer;
 }
 /deep/ nb-action {
   padding: 0 1rem !important;
 }
-.header-icon:hover, /deep/ nb-action .icon-container .control-icon:hover {
+/deep/ nb-action i.control-icon {
+  font-size: 1.2rem !important;
+}
+.header-icon:hover,
+/deep/ nb-action .icon-container .control-icon:hover {
   color: #000000 !important;
 }
 .contacts-header {

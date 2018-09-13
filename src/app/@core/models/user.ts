@@ -1,5 +1,6 @@
+import { Location } from './location';
 export interface User {
-  id: string;
+  id: number;
   email: string;
   firstname?: string;
   lastname?: string;
@@ -8,5 +9,6 @@ export interface User {
   groups?: any;
   displayName?: string;
   photoURL?: string;
-  location: any;
+  location: Location;
+  createdAt?: any;
 }

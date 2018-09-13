@@ -18,6 +18,19 @@ export const LOAD_SELECTED_CONTACT_FAIL =
 export const LOAD_SELECTED_CONTACT_SUCCESS =
   '[Contacts] Load Selected Contact Success';
 
+export const CREATE_CONTACT = '[Contacts] Create Contact';
+export const CREATE_CONTACT_SUCCESS = '[Contacts] Create Contact Success';
+export const CREATE_CONTACT_FAIL = '[Contacts] Create Contact Fail';
+export const UPDATE_CONTACT = '[Contacts] Update Contact';
+export const UPDATE_CONTACT_SUCCESS = '[Contacts] Update Contact Success';
+export const UPDATE_CONTACT_FAIL = '[Contacts] Update Contact Fail';
+export const DELETE_CONTACT = '[Contacts] Delete Contact';
+export const DELETE_CONTACT_SUCCESS = '[Contacts] Delete Contact Success';
+export const DELETE_CONTACT_FAIL = '[Contacts] Delete Contact Fail';
+export const DELETE_CONTACTS = '[Contacts] Delete Contacts';
+export const DELETE_CONTACTS_SUCCESS = '[Contacts] Delete Contacts Success';
+export const DELETE_CONTACTS_FAIL = '[Contacts] Delete Contacts Fail';
+
 export class GenerateContactsData implements Action {
   readonly type = GENERATE_CONTACTS_DATA;
 }
@@ -68,6 +81,66 @@ export class LoadSelectedContactSuccess implements Action {
   constructor(public payload: User) {}
 }
 
+export class CreateContact implements Action {
+  readonly type = CREATE_CONTACT;
+  constructor(public payload: User) {}
+}
+
+export class CreateContactSuccess implements Action {
+  readonly type = CREATE_CONTACT_SUCCESS;
+  constructor(public payload: User) {}
+}
+
+export class CreateContactFail implements Action {
+  readonly type = CREATE_CONTACT_FAIL;
+  constructor(public payload: any) {}
+}
+
+export class UpdateContact implements Action {
+  readonly type = UPDATE_CONTACT;
+  constructor(public id: number, public changes: Partial<User>) {}
+}
+
+export class UpdateContactSuccess implements Action {
+  readonly type = UPDATE_CONTACT_SUCCESS;
+  constructor(public id: number, public changes: Partial<User>) {}
+}
+
+export class UpdateContactFail implements Action {
+  readonly type = UPDATE_CONTACT_FAIL;
+  constructor(public payload: any) {}
+}
+
+export class DeleteContact implements Action {
+  readonly type = DELETE_CONTACT;
+  constructor(public id: number) {}
+}
+
+export class DeleteContactSuccess implements Action {
+  readonly type = DELETE_CONTACT_SUCCESS;
+  constructor(public id: number) {}
+}
+
+export class DeleteContactFail implements Action {
+  readonly type = DELETE_CONTACT_FAIL;
+  constructor(public payload: any) {}
+}
+
+export class DeleteContacts implements Action {
+  readonly type = DELETE_CONTACTS;
+  constructor(public ids: number[]) {}
+}
+
+export class DeleteContactsSuccess implements Action {
+  readonly type = DELETE_CONTACTS_SUCCESS;
+  constructor(public ids: number[]) {}
+}
+
+export class DeleteContactsFail implements Action {
+  readonly type = DELETE_CONTACTS_FAIL;
+  constructor(public payload: any) {}
+}
+
 export type ContactsAction =
   | GenerateContactsData
   | GenerateContactsDataSuccess
@@ -78,4 +151,16 @@ export type ContactsAction =
   | SelectContact
   | LoadSelectedContact
   | LoadSelectedContactFail
-  | LoadSelectedContactSuccess;
+  | LoadSelectedContactSuccess
+  | CreateContact
+  | CreateContactSuccess
+  | CreateContactFail
+  | UpdateContact
+  | UpdateContactSuccess
+  | UpdateContactFail
+  | DeleteContact
+  | DeleteContactSuccess
+  | DeleteContactFail
+  | DeleteContacts
+  | DeleteContactsSuccess
+  | DeleteContactsFail;

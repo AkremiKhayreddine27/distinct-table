@@ -1,126 +1,151 @@
 import { Subject } from 'rxjs';
 
 export abstract class DataService {
+  public data: any[] = [];
 
-    public data: any[] = [];
+  protected added: Subject<any> = new Subject();
 
-    protected added: Subject<any> = new Subject();
+  protected removed: Subject<any> = new Subject();
 
-    protected removed: Subject<any> = new Subject();
+  protected changed: Subject<any> = new Subject();
 
-    protected changed: Subject<any> = new Subject();
+  constructor() {}
+  onAdded() {
+    return this.added;
+  }
 
-    constructor() {
-    }
-    onAdded() {
-        return this.added;
-    }
+  onRemoved() {
+    return this.removed;
+  }
 
-    onRemoved() {
-        return this.removed;
-    }
+  onChanged() {
+    return this.changed;
+  }
 
-    onChanged() {
-        return this.changed;
-    }
+  all(): any[] {
+    return this.data;
+  }
 
-    all(): any[] {
-        return this.data;
-    }
+  find(id: number): any {
+    return this.data.find(item => {
+      return item.id === id;
+    });
+  }
 
-    find(id: number): any {
-        return this.data.find(item => {
-            return item.id === id;
-        });
-    }
+  findBy(attribute: string, value: any): any[] {
+    return this.data.filter(item => {
+      return this.getDataFromObject(item, attribute) === value;
+    });
+  }
 
-    findBy(attribute: string, value: any): any[] {
-        return this.data.filter(item => {
-            return this.getDataFromObject(item, attribute) === value;
-        });
-    }
+  findFirstBy(attribute: string, value: any): any {
+    return this.data.find(item => {
+      return this.getDataFromObject(item, attribute) === value;
+    });
+  }
 
-    findFirstBy(attribute: string, value: any): any {
-        return this.data.find(item => {
-            return this.getDataFromObject(item, attribute) === value;
-        });
-    }
-
-    findByAndBy(filters) {
-        return this.data.filter((item: any) => {
-            for (const key in filters) {
-                if (this.getDataFromObject(item, key) === undefined || this.getDataFromObject(item, key) !== filters[key])
-                    return false;
-            }
-            return true;
-        });
-    }
-
-    findFirstByAndBy(filters) {
-        return this.data.find((item: any) => {
-            for (const key in filters) {
-                if (this.getDataFromObject(item, key) === undefined || this.getDataFromObject(item, key) !== filters[key])
-                    return false;
-            }
-            return true;
-        });
-    }
-
-    store(item: any): void {
-        this.data.push(item);
-        this.added.next(item);
-        this.changed.next(item);
-    }
-
-    storeMany(items: any[]): void {
-        this.data = this.data.concat(items);
-        this.added.next(items);
-        this.changed.next(items);
-    }
-
-    delete(item: any): void {
-        if (typeof item === 'number') {
-            this.data = this.data.filter(r => {
-                return r.id !== item;
-            })
-        } else {
-            this.data = this.data.filter(r => {
-                return r.id !== item.id;
-            });
+  findByAndBy(filters) {
+    return this.data.filter((item: any) => {
+      for (const key in filters) {
+        if (
+          this.getDataFromObject(item, key) === undefined ||
+          this.getDataFromObject(item, key) !== filters[key]
+        ) {
+          return false;
         }
-        this.removed.next(item);
-        this.changed.next(item);
-    }
+      }
+      return true;
+    });
+  }
 
-    update(oldValue: any, newValue: any): void {
-        if (typeof oldValue === 'number') {
-            this.data = this.data.filter(r => {
-                return r.id !== oldValue;
-            })
-        } else {
-            this.data = this.data.filter(r => {
-                return r.id !== oldValue.id;
-            });
+  findFirstByAndBy(filters) {
+    return this.data.find((item: any) => {
+      for (const key in filters) {
+        if (
+          this.getDataFromObject(item, key) === undefined ||
+          this.getDataFromObject(item, key) !== filters[key]
+        ) {
+          return false;
         }
-        this.data.push(newValue);
-        this.changed.next(newValue);
-    }
+      }
+      return true;
+    });
+  }
 
-    sortBy(attribute: any) {
-        this.data.sort((a, b) => {
-            return this.getDataFromObject(b, attribute) - this.getDataFromObject(a, attribute);
+  store(item: any): void {
+    this.data.push(item);
+    this.added.next(item);
+    this.changed.next(item);
+  }
+
+  storeMany(items: any[]): void {
+    this.data = this.data.concat(items);
+    this.added.next(items);
+    this.changed.next(items);
+  }
+
+  delete(item: any): void {
+    if (typeof item === 'number') {
+      this.data = this.data.filter(r => {
+        return r.id !== item;
+      });
+    } else {
+      this.data = this.data.filter(r => {
+        return r.id !== item.id;
+      });
+    }
+    this.removed.next(item);
+    this.changed.next(item);
+  }
+
+  deleteMany(items: any[]): void {
+    for (const item of items) {
+      if (typeof item === 'number') {
+        this.data = this.data.filter(r => {
+          return r.id !== item;
         });
+      } else {
+        this.data = this.data.filter(r => {
+          return r.id !== item.id;
+        });
+      }
+      this.removed.next(item);
+      this.changed.next(item);
     }
+  }
 
-    clear() {
-        this.data = [];
+  update(oldValue: any, newValue: any): void {
+    if (typeof oldValue === 'number') {
+      this.data = this.data.filter(r => {
+        return r.id !== oldValue;
+      });
+    } else {
+      this.data = this.data.filter(r => {
+        return r.id !== oldValue.id;
+      });
     }
+    this.data.push(newValue);
+    this.changed.next(newValue);
+  }
 
-    getDataFromObject(object, path) {
-        const parts = path.split('.');
-        if (parts.length == 1) {
-            return object[parts[0]];
-        }
-        return this.getDataFromObject(object[parts[0]], parts.slice(1).join('.'));
+  sortBy(attribute: any) {
+    this.data.sort((a, b) => {
+      return (
+        this.getDataFromObject(b, attribute) -
+        this.getDataFromObject(a, attribute)
+      );
+    });
+  }
+
+  clear() {
+    this.data = [];
+  }
+
+  getDataFromObject(object, path) {
+    const parts = path.split('.');
+    if (parts.length == 1) {
+      return object[parts[0]];
     }
+    return this.getDataFromObject(object[parts[0]], parts.slice(1).join('.'));
+  }
 }

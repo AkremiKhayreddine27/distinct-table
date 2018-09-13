@@ -3,6 +3,9 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@ng-select/ng-select/themes/default.theme.css";
 @import url('https://fonts.googleapis.com/css?family=Exo');
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+@import '~@icon/themify-icons/themify-icons.css';
+@import '~linearicons/dist/web-font/style.css';
 // @nebular theming framework
 @import '~@nebular/theme/styles/theming';
 // @nebular out of the box themes
@@ -20,6 +23,11 @@ header-height: 60px, header-shadow: 0 1px 0 0 #dfe3eb, sidebar-shadow: 0 0 0 1px
 @include nb-install() {
     // framework global styles
     @include nb-theme-global();
+}
+
+.btn {
+  color: white !important;
+  cursor: pointer !important;
 }
 
 ;
